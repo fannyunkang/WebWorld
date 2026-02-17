@@ -2,6 +2,7 @@
 
 <div style="text-align: center">
   <p>
+    <a href="https://arxiv.org/abs/2602.14721">📄 Paper</a> |
     <a href="https://huggingface.co/Qwen/WebWorld-8B">🤗 8B</a> |
     <a href="https://huggingface.co/Qwen/WebWorld-14B">🤗 14B</a> |
     <a href="https://huggingface.co/Qwen/WebWorld-32B">🤗 32B</a> |
@@ -67,7 +68,7 @@ Agents fine-tuned on WebWorld-synthesized trajectories:
 | Game | 0.253 | **0.473** | +0.220 |
 | GUI Desktop | 0.322 | **0.705** | +0.383 |
 
-For detailed results, please check out the [paper](https://arxiv.org/abs/YYMM.NNNNN).
+For detailed results, please check out the [paper](https://arxiv.org/pdf/2602.14721).
 
 ## Quickstart
 
@@ -256,10 +257,13 @@ All models and data are licensed under [Apache 2.0](https://www.apache.org/licen
 ## Citation
 
 ```bibtex
-@article{WebWorld,
-  title   = {WebWorld: A Large-Scale World Model for Web Agent Training},
-  author  = {Xiao, Zikai and Tu, Jianhong and Zou, Chuhang and Zuo, Yuxin and Li, Zhi and Wang, Peng and Yu, Bowen and Huang, Fei and Lin, Junyang and Liu, Zuozhu},
-  journal = {arXiv preprint arXiv:YYMM.NNNNN},
-  year    = {2025}
+@misc{xiao2026webworldlargescaleworldmodel,
+      title={WebWorld: A Large-Scale World Model for Web Agent Training}, 
+      author={Zikai Xiao and Jianhong Tu and Chuhang Zou and Yuxin Zuo and Zhi Li and Peng Wang and Bowen Yu and Fei Huang and Junyang Lin and Zuozhu Liu},
+      year={2026},
+      eprint={2602.14721},
+      archivePrefix={arXiv},
+      primaryClass={cs.AI},
+      url={https://arxiv.org/abs/2602.14721}, 
 }
 ```
