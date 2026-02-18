@@ -1,14 +1,16 @@
-# WebWorld 🌐
+# WebWorld
 
-<div style="text-align: center">
-  <p>
-    <a href="https://arxiv.org/abs/2602.14721">📄 Paper</a> |
-    <a href="https://huggingface.co/Qwen/WebWorld-8B">🤗 8B</a> |
-    <a href="https://huggingface.co/Qwen/WebWorld-14B">🤗 14B</a> |
-    <a href="https://huggingface.co/Qwen/WebWorld-32B">🤗 32B</a> |
-    <a href="https://huggingface.co/datasets/Qwen/WebWorldData">📦 Dataset</a> |
-  </p>
-</div>
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![arXiv](https://img.shields.io/badge/arXiv-2602.14721-b31b1b.svg)](https://arxiv.org/abs/2602.14721)
+[![GitHub](https://img.shields.io/badge/GitHub-WebWorld-4b32c3?logo=github)](https://github.com/QwenLM/WebWorld)
+[![HuggingFace-8B](https://img.shields.io/badge/🤗%20HuggingFace-8B-yellow)](https://huggingface.co/Qwen/WebWorld-8B)
+[![HuggingFace-14B](https://img.shields.io/badge/🤗%20HuggingFace-14B-yellow)](https://huggingface.co/Qwen/WebWorld-14B)
+[![HuggingFace-32B](https://img.shields.io/badge/🤗%20HuggingFace-32B-yellow)](https://huggingface.co/Qwen/WebWorld-32B)
+[![Dataset](https://img.shields.io/badge/🤗%20Dataset-WebWorldData-orange)](https://huggingface.co/datasets/Qwen/WebWorldData)
+
+<p align="center">
+  <img src="assets/overview.png" width="800" alt="WebWorld Overview">
+</p>
 
 ## Introduction
 
@@ -72,6 +74,10 @@ For detailed results, please check out the [paper](https://arxiv.org/pdf/2602.14
 
 ## Quickstart
 
+<p align="center">
+  <img src="assets/inference_case.png" width="800" alt="Inference Case">
+</p>
+
 ### 1. Installation
 
 ```bash
@@ -84,7 +90,9 @@ tar -xzf data.tar.gz
 All model calls go through `core/serve/unified_api.py`. To add a new model provider, create a file (e.g., `core/serve/oai.py`) and register it in `unified_api.py`. Then specify your model in `config/model_config.yaml` for the WebWorld-Bench or in `demo/config.py` for the demo.
 
 ### 3. Run Demo (Interaction between Agent and WebWorld)
-The demo showcases an agent interacting with WebWorld. Given a user query, you can observe the step-by-step trajectory of the agent navigating and operating within the web environment. Some samples are provided in demo.zip.
+
+The demo showcases an agent interacting with WebWorld. Given a user query, you can observe the step-by-step trajectory of the agent navigating and operating within the web environment. Running the demo will generate HTML trajectory files that can be opened in a browser for visualization. Some samples are provided in `demo/demo.zip`.
+
 ```bash
 python ./demo/demo.py
 ```
