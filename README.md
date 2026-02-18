@@ -245,10 +245,6 @@ WebWorld supports a unified action space as Python-style function calls:
 | | `noop(wait_ms)` | Wait for a duration |
 | | `infeasible(reason)` | Declare the task impossible |
 
-## Demo
-
-## Use Cases: Trajectory Synthesis for Agent Training
-
 
 ## License
 
