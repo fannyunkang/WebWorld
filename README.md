@@ -18,8 +18,8 @@ WebWorld features the following:
 
 - **Trained at Scale**: 1M+ real-world web interaction trajectories via a scalable hierarchical data pipeline (100× more than prior work).
 - **Long-Horizon Simulation**: Supports multi-turn simulation up to 30+ steps with consistent state tracking.
-- **Multi-Format Robustness**: Predicts next states across A11y Tree, HTML, XML, Markdown, and natural language representations.
-- **CoT-Activated Reasoning**: A two-stage training curriculum injects broad web dynamics first, then activates explicit causal reasoning.
+- **Multi-Format Supporting**: Predicts next states across A11y Tree, HTML, XML, Markdown, and natural language representations.
+- **Reasoning**: A two-stage training curriculum injects broad web dynamics first, then activates explicit causal reasoning.
 
 ## Models
 
@@ -72,15 +72,26 @@ For detailed results, please check out the [paper](https://arxiv.org/pdf/2602.14
 
 ## Quickstart
 
-### Installation
+### 1.Installation
 
 ```bash
-pip install transformers torch
+pip install -r requirements.txt
+tar -xzf data.tar.gz
 ```
 
-### Inference
+### 2.Model Configuration
 
-#### Single-Step Prediction
+All model calls go through `core/serve/unified_api.py`. To add a new model provider, create a file (e.g., `core/serve/oai.py`) and register it in `unified_api.py`. Then specify your model in `config/model_config.yaml` for the WebWorld-Bench or in `demo/config.py` for the demo.
+
+### 3.Run Demo (Interaction between Agent and WebWorld)
+
+```bash
+python ./demo/demo.py
+```
+
+## Inference
+
+### Single-Step Prediction
 
 <details>
 <summary>💻 Click to expand code</summary>
@@ -188,7 +199,7 @@ print(response)
 
 </details>
 
-#### Multi-Turn Simulation
+### Multi-Turn Simulation
 
 The first turn provides the initial state and first action. Each subsequent turn uses a fixed continuation prompt:
 
@@ -245,6 +256,14 @@ WebWorld supports a unified action space as Python-style function calls:
 | | `noop(wait_ms)` | Wait for a duration |
 | | `infeasible(reason)` | Declare the task impossible |
 
+
+## WebWorld-Bench
+
+### Run Benchmark
+
+```bash
+python main.py
+```
 
 ## License
 
