@@ -72,19 +72,19 @@ For detailed results, please check out the [paper](https://arxiv.org/pdf/2602.14
 
 ## Quickstart
 
-### 1.Installation
+### 1. Installation
 
 ```bash
 pip install -r requirements.txt
 tar -xzf data.tar.gz
 ```
 
-### 2.Model Configuration
+### 2. Model Configuration
 
 All model calls go through `core/serve/unified_api.py`. To add a new model provider, create a file (e.g., `core/serve/oai.py`) and register it in `unified_api.py`. Then specify your model in `config/model_config.yaml` for the WebWorld-Bench or in `demo/config.py` for the demo.
 
-### 3.Run Demo (Interaction between Agent and WebWorld)
-
+### 3. Run Demo (Interaction between Agent and WebWorld)
+The demo showcases an agent interacting with WebWorld. Given a user query, you can observe the step-by-step trajectory of the agent navigating and operating within the web environment. Some samples are provided in demo.zip.
 ```bash
 python ./demo/demo.py
 ```
