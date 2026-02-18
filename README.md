@@ -2,7 +2,6 @@
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![arXiv](https://img.shields.io/badge/arXiv-2602.14721-b31b1b.svg)](https://arxiv.org/abs/2602.14721)
-[![GitHub](https://img.shields.io/badge/GitHub-WebWorld-4b32c3?logo=github)](https://github.com/QwenLM/WebWorld)
 [![HuggingFace-8B](https://img.shields.io/badge/🤗%20HuggingFace-8B-yellow)](https://huggingface.co/Qwen/WebWorld-8B)
 [![HuggingFace-14B](https://img.shields.io/badge/🤗%20HuggingFace-14B-yellow)](https://huggingface.co/Qwen/WebWorld-14B)
 [![HuggingFace-32B](https://img.shields.io/badge/🤗%20HuggingFace-32B-yellow)](https://huggingface.co/Qwen/WebWorld-32B)
