@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+*.egg
+venv/
+.venv/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*~
+
+# Logs
+*.log
+
+# Results (generated output)
+results/
+
+# Temporary files
+*.tmp
+*.tmp_rewrite
+
+# Environment
+.env
+
+# OS files
+.DS_Store
+Thumbs.db

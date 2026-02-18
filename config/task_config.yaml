@@ -1,0 +1,25 @@
+# tasks_config.yaml
+
+WEB_WORLD_MODEL_EVALUATION:
+  base: ./data/web_wm/eval_data/base.jsonl
+  fine_grained: ./data/web_wm/eval_data/fine_grained.jsonl
+  multi_tab: ./data/web_wm/eval_data/multi_tab.jsonl
+  long: ./data/web_wm/eval_data/long.json
+  xml: ./data/web_wm/eval_data/xml.jsonl
+  html: ./data/web_wm/eval_data/html.jsonl
+  markdown: ./data/web_wm/eval_data/markdown.jsonl
+  playwright: ./data/web_wm/eval_data/playwright.jsonl
+  Web2NAL: ./data/web_wm/eval_data/Web2NAL.jsonl
+  api_service: ./data/web_wm/eval_envs/api_service.jsonl
+  code_dev: ./data/web_wm/eval_envs/code_dev.jsonl
+  game_simulation: ./data/web_wm/eval_envs/game_simulation.jsonl
+  gui_desktop: ./data/web_wm/eval_envs/gui_desktop.jsonl
+  web_browser: ./data/web_wm/eval_envs/web_browser.jsonl
+
+  evaluation_model:
+    backend: "openai"
+    model: "gpt-4o-2024-11-20"
+    params:
+      temperature: 0.7
+      max_tokens: 8192
+      stream: True

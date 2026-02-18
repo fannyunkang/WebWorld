@@ -1,0 +1,15 @@
+# Core dependencies
+pyyaml
+numpy
+torch
+tqdm
+jsonlines
+json-repair
+
+# API and model serving
+openai
+dashscope
+transformers
+
+# Utilities
+pathlib2; python_version < "3.4"

@@ -1,0 +1,38 @@
+# model_config.yaml
+
+backend: "dlc"  
+model: "Qwen3-8B"  
+params:
+  temperature: 0.7 
+  top_p: 0.8        
+  max_tokens: 8192        
+  stream: False  
+
+# backend: "dlc"  
+# model: "qwen3-8b"
+# params:
+#   temperature: 0.7  # 0.7 
+#   top_p: 0.8          
+#   max_tokens: 8192        
+#   stream: False  
+
+# backend: "dashscope"  
+# model: "qwen-max-2025-01-25"
+# params:
+#   temperature: 0.7
+#   top_p: 0.8
+#   presence_penalty: 1.5
+#   max_tokens: 8192
+#   stream: True
+
+# backend: "huggingface"  
+# model: "gpt-oss-20b"
+# params:
+#   max_tokens: 8192    
+
+# backend: "openai"
+# model: "chatgpt-4o-latest"
+# params:
+#   temperature: 0.7
+#   max_tokens: 8192
+#   stream: True

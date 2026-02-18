@@ -1,0 +1,64 @@
+# global_config.yaml
+
+threading_config:
+  inference_workers: 32
+  evaluation_workers: 32
+
+
+selected_tasks:
+  - task_path: "WEB_WORLD_MODEL_EVALUATION/long"
+    args:
+      sample_num: 100
+
+  - task_path: "WEB_WORLD_MODEL_EVALUATION/base"
+    args:
+      sample_num: 100
+
+  - task_path: "WEB_WORLD_MODEL_EVALUATION/fine_grained"
+    args:
+      sample_num: 100
+
+  - task_path: "WEB_WORLD_MODEL_EVALUATION/multi_tab"
+    args:
+      sample_num: 100
+
+  - task_path: "WEB_WORLD_MODEL_EVALUATION/xml"
+    args:
+      sample_num: 100
+
+  - task_path: "WEB_WORLD_MODEL_EVALUATION/html"
+    args:
+      sample_num: 100
+
+  - task_path: "WEB_WORLD_MODEL_EVALUATION/markdown"
+    args:
+      sample_num: 100
+
+  - task_path: "WEB_WORLD_MODEL_EVALUATION/playwright"
+    args:
+      sample_num: 100
+
+  - task_path: "WEB_WORLD_MODEL_EVALUATION/Web2NAL"
+    args:
+      sample_num: 100
+
+
+  # - task_path: "WEB_WORLD_MODEL_EVALUATION/api_service"
+  #   args:
+  #     sample_num: 100
+
+  # - task_path: "WEB_WORLD_MODEL_EVALUATION/code_dev"
+  #   args:
+  #     sample_num: 100
+
+  # - task_path: "WEB_WORLD_MODEL_EVALUATION/game_simulation"
+  #   args:
+  #     sample_num: 100
+
+  # - task_path: "WEB_WORLD_MODEL_EVALUATION/gui_desktop"
+  #   args:
+  #     sample_num: 100
+
+  # - task_path: "WEB_WORLD_MODEL_EVALUATION/web_browser"
+  #   args:
+  #     sample_num: 100
