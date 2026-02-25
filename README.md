@@ -26,9 +26,9 @@ WebWorld features the following:
 
 | Model | Base Model | Parameters | Download |
 |---|---|---|---|
-| **WebWorld-8B** | Qwen3-8B | 8B | [🤗 HuggingFace](https://huggingface.co/Qwen/WebWorld-8B) · [🤖 ModelScope](https://modelscope.cn/models/Qwen/WebWorld-8B) |
-| **WebWorld-14B** | Qwen3-14B | 14B | [🤗 HuggingFace](https://huggingface.co/Qwen/WebWorld-14B) · [🤖 ModelScope](https://modelscope.cn/models/Qwen/WebWorld-14B) |
-| **WebWorld-32B** | Qwen3-32B | 32B | [🤗 HuggingFace](https://huggingface.co/Qwen/WebWorld-32B) · [🤖 ModelScope](https://modelscope.cn/models/Qwen/WebWorld-32B) |
+| **WebWorld-8B** | Qwen3-8B | 8B | [🤗 HuggingFace](https://huggingface.co/Qwen/WebWorld-8B) |
+| **WebWorld-14B** | Qwen3-14B | 14B | [🤗 HuggingFace](https://huggingface.co/Qwen/WebWorld-14B) |
+| **WebWorld-32B** | Qwen3-32B | 32B | [🤗 HuggingFace](https://huggingface.co/Qwen/WebWorld-32B) |
 
 **Dataset**: [Qwen/WebWorldData](https://huggingface.co/datasets/Qwen/WebWorldData) — training trajectories, fully open-sourced under Apache 2.0.
 
