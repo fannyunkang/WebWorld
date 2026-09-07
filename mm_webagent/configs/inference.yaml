@@ -1,0 +1,8 @@
+backend: vllm
+base_url: http://localhost:8000/v1
+model: mm-webagent
+max_steps: 12
+observation:
+  use_screenshot: true
+  use_page_state: true
+  history_window: 10

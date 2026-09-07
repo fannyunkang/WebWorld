@@ -1,0 +1,30 @@
+[
+  {
+    "instruction": "Open the shopping section.",
+    "page_state": "RootWebArea 'Global Start'\n[34] link 'Shopping'\n[18] textbox 'Search'",
+    "last_actions": [],
+    "expected_doc_id": "traj-shopping-001",
+    "expected_action": "click('34')"
+  },
+  {
+    "instruction": "Finish the task after reaching the shopping page.",
+    "page_state": "RootWebArea 'Shopping'\n[50] heading 'Shopping results'",
+    "last_actions": ["click('34')"],
+    "expected_doc_id": "neg-shopping-repeat-001",
+    "expected_action": "send_msg_to_user('Done')"
+  },
+  {
+    "instruction": "Search for hiking backpacks.",
+    "page_state": "RootWebArea 'Global Start'\n[18] textbox 'Search'\n[20] button 'Search'",
+    "last_actions": [],
+    "expected_doc_id": "traj-search-001",
+    "expected_action": "fill('18', 'hiking backpacks', true)"
+  },
+  {
+    "instruction": "Submit the order after reviewing checkout details.",
+    "page_state": "RootWebArea 'Checkout Review'\n[72] checkbox 'I agree to the terms'\n[88] button 'Place order'",
+    "last_actions": ["fill('41', 'address', false)", "click('66')"],
+    "expected_doc_id": "traj-checkout-submit-001",
+    "expected_action": "click('88')"
+  }
+]

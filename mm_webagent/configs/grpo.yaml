@@ -1,0 +1,11 @@
+policy_model: outputs/sft_lora
+rollout_seed: data/mm_webagent/grpo_rollout_seed.jsonl
+reward:
+  task_success: 1.0
+  action_validity: 0.2
+  step_penalty: -0.02
+  repeat_action_penalty: -0.15
+  invalid_action_penalty: -1.0
+rollout:
+  max_steps: 12
+  group_size: 4

@@ -1,0 +1,16 @@
+[
+  {
+    "instruction": "Search for hiking backpacks and open the shopping section.",
+    "screenshot": null,
+    "trajectory": [
+      {
+        "observation": "RootWebArea 'Global Start'\\n[18] textbox 'Search'\\n[20] button 'Search'\\n[34] link 'Shopping'",
+        "action": "fill('18', 'hiking backpacks', true)"
+      },
+      {
+        "observation": "RootWebArea 'Search Results'\\n[34] link 'Shopping'\\n[50] result 'Best hiking backpacks'",
+        "action": "click('34')"
+      }
+    ]
+  }
+]

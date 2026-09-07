@@ -1,0 +1,2 @@
+{"prompt": "Task: open shopping section\nObservation: [34] link 'Shopping'", "chosen": "<action>click('34')</action>", "rejected": "<action>click_bad</action>"}
+{"prompt": "Task: finish after reaching shopping page\nObservation: RootWebArea 'Shopping'", "chosen": "<action>send_msg_to_user('Done')</action>", "rejected": "<action>click('34')</action>"}

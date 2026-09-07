@@ -1,0 +1,2 @@
+{"task_completed": true, "actions": ["fill('18', 'hiking backpacks', true)", "click('34')"], "token_count": 920}
+{"task_completed": false, "actions": ["scroll(0, 600)", "click_bad"], "token_count": 760}

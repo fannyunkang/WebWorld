@@ -1,0 +1,103 @@
+[
+  {
+    "id": "traj-shopping-001",
+    "doc_type": "successful_trajectory",
+    "source": "episode",
+    "text": "Open shopping section from a portal page by clicking the Shopping navigation link.",
+    "metadata": {
+      "instruction": "open shopping section",
+      "page_state": "RootWebArea Global Start [34] link Shopping [18] textbox Search",
+      "action": "click('34')",
+      "site": "portal",
+      "rule": "navigation links should be clicked directly"
+    }
+  },
+  {
+    "id": "neg-shopping-repeat-001",
+    "doc_type": "negative_action",
+    "source": "reward_log",
+    "text": "Repeating click('34') after the Shopping page is already open causes loops and should be penalized.",
+    "metadata": {
+      "instruction": "avoid repeated shopping click",
+      "page_state": "RootWebArea Shopping heading Shopping results",
+      "action": "send_msg_to_user('Done')",
+      "failure": "repeated click on current section",
+      "rule": "terminate once target page is reached"
+    }
+  },
+  {
+    "id": "traj-search-001",
+    "doc_type": "successful_trajectory",
+    "source": "episode",
+    "text": "For a search task, fill the search textbox first, then press enter or click Search.",
+    "metadata": {
+      "instruction": "search product keyword",
+      "page_state": "textbox Search button Search",
+      "action": "fill('18', 'hiking backpacks', true)",
+      "site": "portal",
+      "rule": "fill editable textbox before pressing enter"
+    }
+  },
+  {
+    "id": "rule-url-001",
+    "doc_type": "site_rule",
+    "source": "manual",
+    "text": "Do not use goto(url) unless the user gives an explicit destination URL.",
+    "metadata": {
+      "instruction": "navigation safety",
+      "action": "goto(url)",
+      "rule": "domain and URL safety boundary"
+    }
+  },
+  {
+    "id": "distractor-shopping-copy-001",
+    "doc_type": "site_rule",
+    "source": "manual",
+    "text": "Shopping pages often contain search widgets, promotions, filters, and many product cards.",
+    "metadata": {
+      "instruction": "shopping page description",
+      "page_state": "RootWebArea Shopping Search filters product cards",
+      "action": "scroll(0, 600)",
+      "site": "shopping",
+      "rule": "scroll to inspect more products"
+    }
+  },
+  {
+    "id": "distractor-search-button-001",
+    "doc_type": "successful_trajectory",
+    "source": "episode",
+    "text": "When the user asks to search the entire web, click the Search button after a keyword already exists.",
+    "metadata": {
+      "instruction": "search the entire web",
+      "page_state": "button Search textbox Search value hiking backpacks",
+      "action": "click('20')",
+      "site": "portal",
+      "rule": "click Search after query exists"
+    }
+  },
+  {
+    "id": "traj-checkout-submit-001",
+    "doc_type": "successful_trajectory",
+    "source": "episode",
+    "text": "A checkout flow reaches its final confirmation step after shipping and payment are complete.",
+    "metadata": {
+      "instruction": "submit the order after review",
+      "page_state": "RootWebArea Checkout Review [88] button Place order [72] checkbox agree terms",
+      "action": "click('88')",
+      "site": "checkout",
+      "rule": "click the Place order button only when review page is active"
+    }
+  },
+  {
+    "id": "distractor-checkout-rule-001",
+    "doc_type": "site_rule",
+    "source": "manual",
+    "text": "Checkout tasks often mention order submission, review pages, place order buttons, address forms, and payment confirmation.",
+    "metadata": {
+      "instruction": "checkout task",
+      "page_state": "checkout generic",
+      "action": "scroll(0, 500)",
+      "rule": "inspect checkout page before acting"
+    }
+  }
+]

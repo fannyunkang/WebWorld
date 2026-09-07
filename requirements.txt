@@ -10,6 +10,16 @@ json-repair
 openai
 dashscope
 transformers
+peft
+trl
+accelerate
+datasets
+vllm
+langgraph
+qdrant-client
+jieba
+sentence-transformers
+rank-bm25
 
 # Utilities
 pathlib2; python_version < "3.4"

@@ -1,0 +1,32 @@
+embedding_model: BAAI/bge-m3
+vector_store:
+  provider: qdrant
+  collection: web_agent_experience
+sparse_retrieval:
+  tokenizer: jieba
+  algorithm: bm25
+reranker:
+  model: BAAI/bge-reranker-large
+retrieval:
+  prefetch_k: 12
+  top_k: 5
+  weights:
+    dense: 0.25
+    sparse: 0.20
+    field_bm25: 0.20
+    late_interaction: 0.15
+    trajectory_graph: 0.10
+    rerank: 0.10
+memory:
+  working_window: 10
+  episodic_store: qdrant
+  semantic_store: qdrant
+  negative_store: qdrant
+operation_memory:
+  enabled: true
+  components:
+    - similar_trajectory_retrieval
+    - element_alias_retrieval
+    - failure_case_retrieval
+    - trajectory_graph_retrieval
+    - reward_hint_retrieval

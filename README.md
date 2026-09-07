@@ -1,4 +1,104 @@
-# WebWorld
+# 基于 SFT 与 GRPO 的多模态网页操作 Agent
+
+This fork packages **QwenLM/WebWorld** as the simulation environment for a
+multimodal web-operation Agent training project. The added `mm_webagent`
+package aligns the repository with a full Agent workflow:
+
+```text
+webpage screenshot + page state + user instruction + action history
+    -> Hybrid RAG retrieves similar trajectories, site rules, and failure cases
+    -> Qwen-VL policy Agent
+    -> click / fill / scroll / goto action
+    -> WebWorld simulated feedback or real browser execution
+    -> SFT / DPO / PPO / GRPO training data and evaluation metrics
+```
+
+## Resume-Oriented Architecture
+
+| Resume requirement | Implementation in this repository |
+|---|---|
+| Build a multimodal webpage-operation Agent with Qwen3-VL/Qwen2.5-VL | `mm_webagent/agent/` builds policy prompts from screenshot, page state, user instruction, and history. `mm_webagent/data/screenshot_encoder.py` prepares screenshots for VLM backends. |
+| Generate click, input, scroll, navigation, and terminal actions | `mm_webagent/data/action_schema.py` defines and validates the unified browser action space. `mm_webagent/agent/action_parser.py` extracts executable actions from model responses. |
+| Build web-operation trajectory data | `mm_webagent/data/trajectory_builder.py` converts WebWorld trajectories into SFT records and GRPO rollout seeds. |
+| Add non-standard Hybrid RAG retrieval for web-operation experience | `mm_webagent/rag/` implements query rewrite, Qdrant/BGE-M3 dense retrieval fallback, BM25/jieba sparse retrieval, OpenSearch-style field BM25, ColBERT-style late interaction, trajectory graph retrieval, BGE-style rerank, and context compression. |
+| Use LoRA for SFT | `mm_webagent/training/sft_train.py` and `mm_webagent/training/lora_config.py` provide the Qwen-VL LoRA SFT entry point and default adapter configuration. |
+| Use TRL for SFT, DPO, PPO/RLHF, and GRPO reinforcement learning | `mm_webagent/post_training/` documents and validates SFT/DPO/PPO stages. `mm_webagent/training/grpo_train.py` runs a lightweight reward dry run; `mm_webagent/training/reward.py` implements task-completion, action-validity, step, repetition, and invalid-action rewards. |
+| Deploy inference with vLLM | `mm_webagent/serving/vllm_server.py` prints the vLLM launch command; `mm_webagent/serving/client.py` calls an OpenAI-compatible vLLM endpoint. |
+| Manage observe, decide, execute, and feedback loops with LangGraph | `mm_webagent/workflow/langgraph_runner.py` implements the loop shape and can be replaced by a concrete LangGraph `StateGraph` when that dependency is installed. |
+| Evaluate 20-class tasks with success rate, invalid action rate, average steps, and token usage | `mm_webagent/eval/metrics.py` and `mm_webagent/eval/evaluator.py` provide those metric definitions for saved episodes. WebWorld's original benchmark remains available below. |
+
+## Quickstart For The Agent Scaffold
+
+Build SFT and GRPO seed data from a WebWorld-style trajectory file:
+
+```bash
+python -m mm_webagent.data.trajectory_builder \
+  --input examples/sample_trajectory.json \
+  --sft-output data/mm_webagent/sft_train.jsonl \
+  --grpo-output data/mm_webagent/grpo_rollout_seed.jsonl
+```
+
+Validate the Qwen-VL LoRA SFT configuration without launching GPU training:
+
+```bash
+python -m mm_webagent.training.sft_train \
+  --data data/mm_webagent/sft_train.jsonl \
+  --model Qwen/Qwen2.5-VL-7B-Instruct \
+  --dry-run
+```
+
+Run a GRPO reward-shaping dry run:
+
+```bash
+python -m mm_webagent.training.grpo_train \
+  --rollout-seed data/mm_webagent/grpo_rollout_seed.jsonl
+```
+
+Validate DPO preference data and PPO/RLHF rollout rewards:
+
+```bash
+python -m mm_webagent.post_training.dpo_train \
+  --data examples/sample_preferences.jsonl \
+  --model Qwen/Qwen3-0.6B
+
+python -m mm_webagent.post_training.ppo_train \
+  --episodes examples/sample_episodes.jsonl \
+  --model outputs/sft_lora
+```
+
+Compare baseline Hybrid RAG with upgraded Operation Memory Retrieval:
+
+```bash
+python -m mm_webagent.eval.retrieval_eval \
+  --documents examples/operation_memory_docs.json \
+  --queries examples/operation_memory_eval.json \
+  --top-k 3
+```
+
+Print the vLLM serving command:
+
+```bash
+python -m mm_webagent.serving.vllm_server \
+  --model outputs/sft_lora \
+  --served-model-name mm-webagent
+```
+
+Run the local Agent workflow demo:
+
+```bash
+python examples/run_agent_demo.py
+```
+
+See `docs/resume_project_design.md` for the exact mapping between the resume
+description and the added modules.
+See `docs/hybrid_rag_and_post_training.md` for the Hybrid RAG, SFT, DPO,
+PPO/RLHF, GRPO, and vLLM deployment design.
+See `docs/retrieval_benchmark_report.md` for the upgraded retrieval benchmark.
+
+## Upstream WebWorld
+
+The original QwenLM/WebWorld documentation is kept below because this project
+uses WebWorld as the world-model simulation and evaluation layer.
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![arXiv](https://img.shields.io/badge/arXiv-2602.14721-b31b1b.svg)](https://arxiv.org/abs/2602.14721)

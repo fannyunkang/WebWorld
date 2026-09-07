@@ -1,0 +1,17 @@
+base_model: Qwen/Qwen3-0.6B
+sft_adapter: outputs/qwen3_0_6b_sft_lora
+dpo_adapter: outputs/qwen3_0_6b_dpo_lora
+ppo_adapter: outputs/qwen3_0_6b_ppo_lora
+trainer: trl
+validation:
+  action_json_validity: true
+  action_accuracy: true
+  invalid_action_rate: true
+  heldout_eval_file: examples/sample_episodes.jsonl
+stages:
+  sft:
+    train_file: data/mm_webagent/sft_train.jsonl
+  dpo:
+    preference_file: examples/sample_preferences.jsonl
+  ppo:
+    rollout_file: examples/sample_episodes.jsonl
