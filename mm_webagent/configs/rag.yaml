@@ -1,4 +1,5 @@
 embedding_model: BAAI/bge-m3
+retrieval_mode: graph_rag
 vector_store:
   provider: qdrant
   collection: web_agent_experience
@@ -30,3 +31,20 @@ operation_memory:
     - failure_case_retrieval
     - trajectory_graph_retrieval
     - reward_hint_retrieval
+graph_rag:
+  enabled: true
+  node_types:
+    - task
+    - page
+    - element
+    - action
+    - outcome
+    - rule
+    - failure
+  edge_types:
+    - starts_on
+    - contains_element
+    - selects_action
+    - leads_to
+    - constrains
+    - fails_by

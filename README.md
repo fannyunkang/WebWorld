@@ -6,7 +6,7 @@ package aligns the repository with a full Agent workflow:
 
 ```text
 webpage screenshot + page state + user instruction + action history
-    -> Hybrid RAG retrieves similar trajectories, site rules, and failure cases
+    -> GraphRAG retrieves executable task/page/action paths
     -> Qwen-VL policy Agent
     -> click / fill / scroll / goto action
     -> WebWorld simulated feedback or real browser execution
@@ -20,7 +20,7 @@ webpage screenshot + page state + user instruction + action history
 | Build a multimodal webpage-operation Agent with Qwen3-VL/Qwen2.5-VL | `mm_webagent/agent/` builds policy prompts from screenshot, page state, user instruction, and history. `mm_webagent/data/screenshot_encoder.py` prepares screenshots for VLM backends. |
 | Generate click, input, scroll, navigation, and terminal actions | `mm_webagent/data/action_schema.py` defines and validates the unified browser action space. `mm_webagent/agent/action_parser.py` extracts executable actions from model responses. |
 | Build web-operation trajectory data | `mm_webagent/data/trajectory_builder.py` converts WebWorld trajectories into SFT records and GRPO rollout seeds. |
-| Add non-standard Hybrid RAG retrieval for web-operation experience | `mm_webagent/rag/` implements query rewrite, Qdrant/BGE-M3 dense retrieval fallback, BM25/jieba sparse retrieval, OpenSearch-style field BM25, ColBERT-style late interaction, trajectory graph retrieval, BGE-style rerank, and context compression. |
+| Add GraphRAG retrieval for web-operation experience | `mm_webagent/rag/` implements GraphRAG over task/page/action/outcome/rule/failure nodes, with Qdrant/BGE-M3, BM25/jieba, field BM25, late interaction, and reranking as auxiliary recall signals. |
 | Use LoRA for SFT | `mm_webagent/training/sft_train.py` and `mm_webagent/training/lora_config.py` provide the Qwen-VL LoRA SFT entry point and default adapter configuration. |
 | Use TRL for SFT, DPO, PPO/RLHF, and GRPO reinforcement learning | `mm_webagent/post_training/` documents and validates SFT/DPO/PPO stages. `mm_webagent/training/grpo_train.py` runs a lightweight reward dry run; `mm_webagent/training/reward.py` implements task-completion, action-validity, step, repetition, and invalid-action rewards. |
 | Deploy inference with vLLM | `mm_webagent/serving/vllm_server.py` prints the vLLM launch command; `mm_webagent/serving/client.py` calls an OpenAI-compatible vLLM endpoint. |
@@ -75,6 +75,12 @@ python -m mm_webagent.eval.retrieval_eval \
   --top-k 3
 ```
 
+Run the GraphRAG demo:
+
+```bash
+python examples/run_graphrag_demo.py
+```
+
 Print the vLLM serving command:
 
 ```bash
@@ -94,6 +100,8 @@ description and the added modules.
 See `docs/hybrid_rag_and_post_training.md` for the Hybrid RAG, SFT, DPO,
 PPO/RLHF, GRPO, and vLLM deployment design.
 See `docs/retrieval_benchmark_report.md` for the upgraded retrieval benchmark.
+See `docs/runtime_strategies_and_graphrag.md` for runtime strategies and the
+GraphRAG route.
 
 ## Upstream WebWorld
 

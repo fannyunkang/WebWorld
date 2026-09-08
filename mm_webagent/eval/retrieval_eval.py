@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import Protocol
 
 from mm_webagent.rag.hybrid_retriever import HybridWebAgentRetriever
+from mm_webagent.rag.graphrag import GraphRAGRetriever
 from mm_webagent.rag.operation_retriever import OperationMemoryRetriever
 from mm_webagent.rag.query_rewrite import rewrite_query
 from mm_webagent.rag.schema import RagDocument
@@ -68,6 +69,24 @@ def evaluate_operation(retriever: OperationMemoryRetriever, queries: list[dict],
     return _summary(ranks, failure_hits, action_hits, len(queries), top_k)
 
 
+def evaluate_graphrag(retriever: GraphRAGRetriever, queries: list[dict], top_k: int) -> dict[str, float]:
+    ranks = []
+    failure_hits = 0
+    action_hits = 0
+    for query in queries:
+        results = retriever.retrieve(
+            query["instruction"],
+            query["page_state"],
+            query.get("last_actions", []),
+            top_k=top_k,
+        )
+        ids = [result.hit.document.id for result in results]
+        ranks.append(_rank(ids, query["expected_doc_id"]))
+        failure_hits += int(any(result.hit.document.doc_type == "negative_action" for result in results))
+        action_hits += int(any(result.suggested_action == query.get("expected_action") for result in results))
+    return _summary(ranks, failure_hits, action_hits, len(queries), top_k)
+
+
 def _rank(ids: list[str], expected: str) -> int | None:
     try:
         return ids.index(expected) + 1
@@ -99,12 +118,16 @@ def improvement(before: dict[str, float], after: dict[str, float]) -> dict[str, 
 def compare(documents: list[RagDocument], queries: list[dict], top_k: int) -> dict[str, dict[str, float]]:
     base = HybridWebAgentRetriever(documents)
     upgraded = OperationMemoryRetriever(documents)
+    graphrag = GraphRAGRetriever(documents)
     baseline = evaluate_base(base, queries, top_k)
     optimized = evaluate_operation(upgraded, queries, top_k)
+    graph = evaluate_graphrag(graphrag, queries, top_k)
     return {
         "baseline_hybrid_rag": baseline,
         "upgraded_operation_memory": optimized,
-        "delta": improvement(baseline, optimized),
+        "graph_rag": graph,
+        "operation_delta": improvement(baseline, optimized),
+        "graphrag_delta": improvement(baseline, graph),
     }
 
 

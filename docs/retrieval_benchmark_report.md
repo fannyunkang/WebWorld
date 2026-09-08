@@ -11,8 +11,8 @@ python -m mm_webagent.eval.retrieval_eval \
   --top-k 3
 ```
 
-The benchmark compares the original Hybrid RAG retriever with the upgraded
-Operation Memory Retrieval chain.
+The benchmark compares the original Hybrid RAG retriever, upgraded Operation
+Memory Retrieval, and GraphRAG route.
 
 ## Retrieval Chains
 
@@ -35,29 +35,43 @@ Qdrant/BGE-M3-style dense retrieval
   + BGE-style reranking
 ```
 
+GraphRAG:
+
+```text
+task/page/action/outcome/rule/failure graph
+  + page_state -> action -> outcome path scoring
+  + repeated-action failure recall
+```
+
 ## Results
 
-| Metric | Baseline | Upgraded | Delta |
-| --- | ---: | ---: | ---: |
-| hit@3 | 0.75 | 1.00 | +0.25 |
-| MRR@3 | 0.75 | 1.00 | +0.25 |
-| action hint hit rate@3 | 0.75 | 1.00 | +0.25 |
-| failure case recall@3 | 0.50 | 0.50 | +0.00 |
-| hit@1 | 0.75 | 1.00 | +0.25 |
-| MRR@1 | 0.75 | 1.00 | +0.25 |
-| action hint hit rate@1 | 0.75 | 1.00 | +0.25 |
-| failure case recall@1 | 0.25 | 0.25 | +0.00 |
+| Metric | Baseline Hybrid | Operation Memory | GraphRAG | GraphRAG Delta |
+| --- | ---: | ---: | ---: | ---: |
+| hit@3 | 0.75 | 1.00 | 1.00 | +0.25 |
+| MRR@3 | 0.75 | 1.00 | 1.00 | +0.25 |
+| action hint hit rate@3 | 0.75 | 1.00 | 1.00 | +0.25 |
+| failure case recall@3 | 0.50 | 0.50 | 0.50 | +0.00 |
+| hit@1 | 0.75 | 1.00 | 1.00 | +0.25 |
+| MRR@1 | 0.75 | 1.00 | 1.00 | +0.25 |
+| action hint hit rate@1 | 0.75 | 1.00 | 1.00 | +0.25 |
+| failure case recall@1 | 0.25 | 0.25 | 0.25 | +0.00 |
 
 ## Interpretation
 
-The upgraded retriever improves exact operation-memory retrieval on this
-offline benchmark because fielded BM25 and late interaction can use structured
-signals that are weak or absent in plain document text:
+The Operation Memory and GraphRAG retrievers improve exact operation retrieval
+on this offline benchmark because they use structured signals that are weak or
+absent in plain document text:
 
 - element IDs such as `[88]`
 - action strings such as `click('88')`
 - page-state fields such as `Checkout Review`
 - route and safety rules such as `Place order`
+
+GraphRAG additionally exposes the retrieved path, for example:
+
+```text
+task:submit order -> page:Checkout Review -> action:click('88') -> outcome:successful trajectory
+```
 
 Failure-case recall did not improve in this small benchmark. That is expected:
 the evaluation set has only one repeated-action failure case, and both

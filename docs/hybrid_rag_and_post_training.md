@@ -30,6 +30,9 @@ instruction + page_state + recent actions
   -> Agent prompt
 ```
 
+This chain is retained as an auxiliary recall path. The main runtime route can
+be switched to GraphRAG through `mm_webagent/configs/rag.yaml`.
+
 Dense retrieval finds semantically similar tasks. Sparse retrieval catches exact
 Chinese terms, element names, button labels, and action strings. The reranker
 uses the full query/document pair to pick the examples that are most useful for
