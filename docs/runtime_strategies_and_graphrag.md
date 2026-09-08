@@ -13,6 +13,8 @@ The Agent supports five runtime strategies:
 | RL Rollout | training/evaluation mode | sample actions, assign rewards, and optimize with PPO/GRPO |
 
 The route is implemented in `mm_webagent/workflow/strategy_router.py`.
+GraphRAG can be connected to the execution loop through
+`mm_webagent/workflow/graphrag_runner.py`.
 
 ## GraphRAG Chain
 

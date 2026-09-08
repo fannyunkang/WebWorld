@@ -13,6 +13,8 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Run a lightweight GRPO reward dry run.")
     parser.add_argument("--rollout-seed", required=True)
     parser.add_argument("--max-records", type=int, default=5)
+    parser.add_argument("--group-size", type=int, default=4)
+    parser.add_argument("--train", action="store_true", help="Print the GRPO launch boundary for grouped rollouts.")
     args = parser.parse_args()
 
     rewards = []
@@ -27,6 +29,9 @@ def main() -> None:
     avg_reward = sum(rewards) / len(rewards) if rewards else 0.0
     print(f"Checked {len(rewards)} rollout seeds.")
     print(f"Average shaped reward: {avg_reward:.4f}")
+    print(f"Group size: {args.group_size}")
+    if args.train:
+        print("GRPO training samples multiple actions per state, normalizes rewards within each group, and updates the policy.")
 
 
 if __name__ == "__main__":

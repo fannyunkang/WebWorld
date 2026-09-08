@@ -95,6 +95,12 @@ Run the local Agent workflow demo:
 python examples/run_agent_demo.py
 ```
 
+Show the project pipeline:
+
+```bash
+python -m mm_webagent.cli pipeline
+```
+
 See `docs/resume_project_design.md` for the exact mapping between the resume
 description and the added modules.
 See `docs/hybrid_rag_and_post_training.md` for the Hybrid RAG, SFT, DPO,
@@ -102,6 +108,8 @@ PPO/RLHF, GRPO, and vLLM deployment design.
 See `docs/retrieval_benchmark_report.md` for the upgraded retrieval benchmark.
 See `docs/runtime_strategies_and_graphrag.md` for runtime strategies and the
 GraphRAG route.
+See `docs/run_and_train.md` for startup, fine-tuning, RLHF, GRPO, and vLLM
+deployment commands.
 
 ## Upstream WebWorld
 

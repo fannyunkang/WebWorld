@@ -13,6 +13,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Dry-run PPO reward assignment for web-agent rollouts.")
     parser.add_argument("--episodes", required=True)
     parser.add_argument("--model", default="outputs/sft_lora")
+    parser.add_argument("--train", action="store_true", help="Print the TRL PPO launch boundary for full rollouts.")
     args = parser.parse_args()
 
     totals = []
@@ -35,6 +36,9 @@ def main() -> None:
     print(f"Model: {args.model}")
     print(f"Episodes: {len(totals)}")
     print(f"Average PPO-style return: {avg:.4f}")
+    if args.train:
+        print("PPO training requires online rollout generation: policy -> WebWorld/browser -> reward -> PPO update.")
+        print("Use this script to validate rewards, then connect TRL PPOTrainer to the rollout loop.")
 
 
 if __name__ == "__main__":
