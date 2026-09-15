@@ -15,12 +15,27 @@ For real model training, use a CUDA environment and install versions of
 
 Convert WebWorld-style trajectories into SFT records and GRPO rollout seeds:
 
+PowerShell uses a backtick for line continuation. Bash uses `\`.
+
 ```bash
 python -m mm_webagent.cli build-data \
   --input examples/sample_trajectory.json \
   --sft-output data/mm_webagent/sft_train.jsonl \
   --grpo-output data/mm_webagent/grpo_rollout_seed.jsonl
 ```
+
+Build the larger 20-class training corpus for SFT, DPO, and GRPO:
+
+```bash
+python -m mm_webagent.cli build-training-corpus \
+  --repeats-per-class 10 \
+  --trajectory-output data/mm_webagent/training_trajectories.json \
+  --sft-output data/mm_webagent/sft_train.jsonl \
+  --dpo-output data/mm_webagent/dpo_train.jsonl \
+  --grpo-output data/mm_webagent/grpo_rollout_seed.jsonl
+```
+
+See `docs/sft_dpo_training_steps.md` for the full SFT/DPO training sequence.
 
 ## 3. Evaluate GraphRAG Before Training
 
@@ -34,7 +49,19 @@ python -m mm_webagent.cli eval-graphrag \
 This checks whether GraphRAG retrieves the right operation path before the
 policy model is trained.
 
-## 4. Run A Local Agent Demo
+## 4. Run The 20-Class Agent Benchmark Fixture
+
+```bash
+python -m mm_webagent.cli eval-agent-benchmark \
+  --output experiments/agent_benchmark_20class_results.json
+```
+
+This produces a deterministic 20-class offline episode report with success
+rate, invalid action rate, average steps, and token usage for Direct Policy,
+Operation Memory, and GraphRAG strategies. See
+`docs/agent_benchmark_20class_report.md`.
+
+## 5. Run A Local Agent Demo
 
 ```bash
 python examples/run_graphrag_demo.py
@@ -44,7 +71,7 @@ python examples/run_agent_demo.py
 `run_graphrag_demo.py` shows the retrieved path. `run_agent_demo.py` shows the
 minimal action loop.
 
-## 5. LoRA-SFT Cold Start
+## 6. LoRA-SFT Cold Start
 
 Dry-run validation:
 
@@ -70,13 +97,13 @@ python -m mm_webagent.training.sft_train \
 After this stage, the model should learn the browser action format and basic
 element selection.
 
-## 6. DPO Preference Alignment
+## 7. DPO Preference Alignment
 
 Dry-run validation:
 
 ```bash
 python -m mm_webagent.post_training.dpo_train \
-  --data examples/sample_preferences.jsonl \
+  --data data/mm_webagent/dpo_train.jsonl \
   --model Qwen/Qwen3-0.6B
 ```
 
@@ -84,7 +111,7 @@ Real TRL DPO training:
 
 ```bash
 python -m mm_webagent.post_training.dpo_train \
-  --data examples/sample_preferences.jsonl \
+  --data data/mm_webagent/dpo_train.jsonl \
   --model Qwen/Qwen3-0.6B \
   --output-dir outputs/qwen3_0_6b_dpo_lora \
   --train
@@ -93,7 +120,7 @@ python -m mm_webagent.post_training.dpo_train \
 DPO teaches the model to prefer valid, task-progressing actions over invalid,
 repeated, or low-value actions.
 
-## 7. PPO/RLHF Rollout Validation
+## 8. PPO/RLHF Rollout Validation
 
 ```bash
 python -m mm_webagent.post_training.ppo_train \
@@ -107,7 +134,7 @@ Full PPO requires an online rollout loop:
 policy -> GraphRAG context -> action -> WebWorld/browser feedback -> reward -> PPO update
 ```
 
-## 8. GRPO Grouped Rollout Validation
+## 9. GRPO Grouped Rollout Validation
 
 ```bash
 python -m mm_webagent.training.grpo_train \
@@ -118,7 +145,7 @@ python -m mm_webagent.training.grpo_train \
 Full GRPO samples multiple actions for the same state, compares shaped rewards
 within the group, and updates the policy toward better actions.
 
-## 9. Deploy With vLLM
+## 10. Deploy With vLLM
 
 Print the launch command:
 
@@ -143,6 +170,7 @@ Then call the service with `mm_webagent/serving/client.py`.
 
 ```text
 GraphRAG retrieval validation
+  -> 20-class offline Agent benchmark fixture
   -> LoRA-SFT on Qwen3-0.6B
   -> DPO chosen/rejected action preference
   -> PPO reward validation

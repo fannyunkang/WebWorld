@@ -12,6 +12,6 @@ stages:
   sft:
     train_file: data/mm_webagent/sft_train.jsonl
   dpo:
-    preference_file: examples/sample_preferences.jsonl
+    preference_file: data/mm_webagent/dpo_train.jsonl
   ppo:
     rollout_file: examples/sample_episodes.jsonl

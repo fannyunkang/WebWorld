@@ -38,6 +38,17 @@ python -m mm_webagent.data.trajectory_builder \
   --grpo-output data/mm_webagent/grpo_rollout_seed.jsonl
 ```
 
+Build the larger 20-class SFT/DPO/GRPO corpus:
+
+```bash
+python -m mm_webagent.cli build-training-corpus \
+  --repeats-per-class 10 \
+  --trajectory-output data/mm_webagent/training_trajectories.json \
+  --sft-output data/mm_webagent/sft_train.jsonl \
+  --dpo-output data/mm_webagent/dpo_train.jsonl \
+  --grpo-output data/mm_webagent/grpo_rollout_seed.jsonl
+```
+
 Validate the Qwen-VL LoRA SFT configuration without launching GPU training:
 
 ```bash
@@ -101,6 +112,13 @@ Show the project pipeline:
 python -m mm_webagent.cli pipeline
 ```
 
+Run the reproducible 20-class Agent benchmark fixture:
+
+```bash
+python -m mm_webagent.cli eval-agent-benchmark \
+  --output experiments/agent_benchmark_20class_results.json
+```
+
 See `docs/resume_project_design.md` for the exact mapping between the resume
 description and the added modules.
 See `docs/hybrid_rag_and_post_training.md` for the Hybrid RAG, SFT, DPO,
@@ -110,6 +128,16 @@ See `docs/runtime_strategies_and_graphrag.md` for runtime strategies and the
 GraphRAG route.
 See `docs/run_and_train.md` for startup, fine-tuning, RLHF, GRPO, and vLLM
 deployment commands.
+See `docs/agent_benchmark_20class_report.md` for the reproducible 20-class
+offline Agent benchmark that records the resume-facing success-rate, invalid
+action, step-count, and token-cost metrics.
+See `docs/training_deployment_evidence.md` for the verified local commands and
+outputs across data building, LoRA-SFT, DPO, PPO, GRPO, RAG evaluation, and
+vLLM serving.
+See `docs/sft_dpo_training_steps.md` for the expanded SFT/DPO corpus and
+training sequence.
+See `docs/interview_evidence_map.md` for a direct map from resume claims to
+repository files.
 
 ## Upstream WebWorld
 
