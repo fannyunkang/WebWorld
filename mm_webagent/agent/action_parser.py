@@ -5,6 +5,7 @@ from __future__ import annotations
 import re
 
 from mm_webagent.data.action_schema import ParsedAction, parse_action
+from mm_webagent.data.action_json_schema import json_action_to_python_call, parse_json_action
 
 
 def extract_action(response: str) -> ParsedAction:
@@ -12,4 +13,6 @@ def extract_action(response: str) -> ParsedAction:
     action_text = match.group(1).strip() if match else (response or "").strip()
     action_text = re.sub(r"^```(?:python)?", "", action_text, flags=re.MULTILINE).strip()
     action_text = re.sub(r"```$", "", action_text, flags=re.MULTILINE).strip()
+    if action_text.startswith("{"):
+        return parse_action(json_action_to_python_call(parse_json_action(action_text)))
     return parse_action(action_text)

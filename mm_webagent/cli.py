@@ -8,9 +8,11 @@ from pathlib import Path
 
 from mm_webagent.data.training_corpus_builder import build_training_corpus
 from mm_webagent.data.trajectory_builder import load_webworld_records, to_grpo_rollout_seed, to_sft_records, write_jsonl
+from mm_webagent.eval.multimodal_ablation import compare_episode_files
 from mm_webagent.eval.agent_benchmark import run_benchmark
 from mm_webagent.eval.retrieval_eval import compare, load_documents, load_queries
 from mm_webagent.post_training.pipeline import describe_pipeline
+from mm_webagent.training.vl_dataset_format import convert_jsonl
 
 
 def main() -> None:
@@ -36,6 +38,14 @@ def main() -> None:
 
     benchmark = sub.add_parser("eval-agent-benchmark")
     benchmark.add_argument("--output", default="experiments/agent_benchmark_20class_results.json")
+
+    vl = sub.add_parser("convert-vl-sft")
+    vl.add_argument("--input", default="data/mm_webagent/sft_train.jsonl")
+    vl.add_argument("--output", default="data/mm_webagent/sft_train_vl.jsonl")
+
+    ablation = sub.add_parser("eval-multimodal-ablation")
+    ablation.add_argument("--page-state-only", required=True)
+    ablation.add_argument("--multimodal", required=True)
 
     sub.add_parser("pipeline")
     args = parser.parse_args()
@@ -63,6 +73,11 @@ def main() -> None:
         output.parent.mkdir(parents=True, exist_ok=True)
         output.write_text(json.dumps(report, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
         print(json.dumps({"summary": report["summary"], "deltas_vs_direct_policy": report["deltas_vs_direct_policy"]}, indent=2))
+    elif args.command == "convert-vl-sft":
+        count = convert_jsonl(args.input, args.output)
+        print(json.dumps({"output": args.output, "records": count}, indent=2))
+    elif args.command == "eval-multimodal-ablation":
+        print(json.dumps(compare_episode_files(args.page_state_only, args.multimodal), indent=2))
     elif args.command == "pipeline":
         print(describe_pipeline())
 

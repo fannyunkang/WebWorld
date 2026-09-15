@@ -20,6 +20,8 @@ qdrant-client
 jieba
 sentence-transformers
 rank-bm25
+pillow
+playwright
 
 # Utilities
 pathlib2; python_version < "3.4"

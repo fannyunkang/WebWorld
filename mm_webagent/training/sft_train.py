@@ -8,6 +8,7 @@ from pathlib import Path
 
 from mm_webagent.training.dataset_format import load_jsonl, sft_text
 from mm_webagent.training.lora_config import LoraConfigSpec
+from mm_webagent.training.vl_dataset_format import to_qwen_vl_messages
 
 
 def inspect_dataset(path: str | Path, limit: int = 3) -> list[dict]:
@@ -31,6 +32,7 @@ def main() -> None:
     parser.add_argument("--max-length", type=int, default=2048)
     parser.add_argument("--train", action="store_true", help="Launch TRL SFT training.")
     parser.add_argument("--dry-run", action="store_true", help="Validate inputs without launching training.")
+    parser.add_argument("--format", choices=["text", "qwen-vl"], default="text")
     args = parser.parse_args()
 
     preview = inspect_dataset(args.data)
@@ -39,9 +41,18 @@ def main() -> None:
     print(f"Output: {args.output_dir}")
     print(f"LoRA: {lora.to_peft_kwargs()}")
     print(f"Preview records: {len(preview)}")
+    if args.format == "qwen-vl" and preview:
+        print(f"Qwen-VL preview: {json.dumps(to_qwen_vl_messages(preview[0]), ensure_ascii=False)[:1000]}")
 
     if args.dry_run or not args.train:
         return
+
+    if args.format == "qwen-vl":
+        raise SystemExit(
+            "Qwen-VL multimodal records are validated in this scaffold. "
+            "Use --dry-run or export with `python -m mm_webagent.training.vl_dataset_format`; "
+            "wire the exported messages into your Qwen-VL processor/trainer for GPU training."
+        )
 
     try:
         from datasets import Dataset

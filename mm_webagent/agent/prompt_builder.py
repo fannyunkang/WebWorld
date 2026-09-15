@@ -42,7 +42,11 @@ def build_policy_prompt(
         if item.get("observation"):
             history_lines.append(f"Observation after step {idx}: {item['observation']}")
 
-    screenshot_line = screenshot or "No screenshot attached; rely on page_state."
+    screenshot_line = (
+        f"Image input provided separately: {screenshot}"
+        if screenshot
+        else "No screenshot attached; rely on page_state."
+    )
     return f"""{SYSTEM_PROMPT}
 
 # User instruction

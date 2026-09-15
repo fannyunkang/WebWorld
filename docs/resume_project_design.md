@@ -9,6 +9,9 @@ web-operation agent training project.
 | --- | --- |
 | Build a multimodal web-operation Agent from Qwen3-VL | `mm_webagent/agent`, `mm_webagent/data/screenshot_encoder.py` |
 | Generate click, input, and scroll actions from screenshots, user instruction, and history | `mm_webagent/agent/prompt_builder.py`, `mm_webagent/data/action_schema.py` |
+| Send real screenshot payloads to Qwen-VL-compatible inference | `mm_webagent/data/screenshot_encoder.py`, `mm_webagent/serving/vlm_client.py` |
+| Observe and execute actions in a browser loop | `mm_webagent/browser/observer.py`, `mm_webagent/browser/executor.py` |
+| Build Qwen-VL multimodal SFT messages and grounding screenshots | `mm_webagent/training/vl_dataset_format.py`, `mm_webagent/data/screenshot_annotator.py` |
 | Build web-operation trajectory data | `mm_webagent/data/trajectory_builder.py` |
 | Retrieve similar trajectories, site rules, failed actions, and reward hints | `mm_webagent/rag`, `mm_webagent/configs/rag.yaml` |
 | Use LoRA for supervised fine-tuning | `mm_webagent/training/sft_train.py`, `mm_webagent/training/lora_config.py` |
