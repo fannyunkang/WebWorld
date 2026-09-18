@@ -36,7 +36,7 @@ class PlaywrightActionExecutor:
     def _locator_for_bid(self, bid: str):
         info = self.element_registry.get(str(bid))
         selector = info.selector if info and info.selector else f'[data-mm-bid="{bid}"]'
-        return self.page.locator(selector).first()
+        return self.page.locator(selector).first
 
     def _do_click(self, bid: str, button: str = "left", modifiers: list[str] | None = None) -> None:
         self._locator_for_bid(bid).click(button=button, modifiers=modifiers or [])
